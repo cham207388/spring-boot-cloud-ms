@@ -1,5 +1,6 @@
 package com.abc.ms.service;
 
+import com.abc.ms.dto.APIResponseDto;
 import com.abc.ms.dto.EmployeeDto;
 
 import java.util.List;
@@ -9,13 +10,14 @@ import java.util.List;
  * @date 2/14/23
  */
 public interface EmployeeService {
+    String DEPARTMENT_URL = "http://localhost:8080/api/department/";
 
     EmployeeDto save(EmployeeDto employeeDto);
 
 
     List<EmployeeDto> findAll();
 
-    EmployeeDto findByEmail(String email);
+    APIResponseDto findByEmail(String email);
 
-    EmployeeDto findById(long id);
+    APIResponseDto findById(long id);
 }

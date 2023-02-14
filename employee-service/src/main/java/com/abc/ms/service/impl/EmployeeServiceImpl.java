@@ -1,5 +1,7 @@
 package com.abc.ms.service.impl;
 
+import com.abc.ms.dto.APIResponseDto;
+import com.abc.ms.dto.DepartmentDto;
 import com.abc.ms.dto.EmployeeDto;
 import com.abc.ms.entity.Employee;
 import com.abc.ms.exception.ResourceNotFoundException;
@@ -7,7 +9,9 @@ import com.abc.ms.repository.EmployeeRepository;
 import com.abc.ms.service.EmployeeService;
 import com.abc.ms.utils.Converter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,11 +27,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final Converter converter;
+    private final RestTemplate restTemplate;
 
     @Override
     public EmployeeDto save(EmployeeDto employeeDto) {
 
-        var save = employeeRepository.save(converter.toEmployee(employeeDto));
+        Employee save = employeeRepository.save(converter.toEmployee(employeeDto));
         return converter.toDto(save);
     }
 
@@ -39,16 +44,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto findByEmail(String email) {
+    public APIResponseDto findByEmail(String email) {
         Employee employee = employeeRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("No employee with email: " + email));
-        return converter.toDto(employee);
+        EmployeeDto employeeDto = converter.toDto(employee);
+        DepartmentDto departmentDto = restTemplate.getForObject(DEPARTMENT_URL + employeeDto.getDepartmentCode(), DepartmentDto.class);
+        return new APIResponseDto(employeeDto, departmentDto);
     }
 
     @Override
-    public EmployeeDto findById(long id) {
+    public APIResponseDto findById(long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No employee with id: " + id));
-        return converter.toDto(employee);
+
+        ResponseEntity<DepartmentDto> forEntity = restTemplate.getForEntity(DEPARTMENT_URL + employee.getDepartmentCode(), DepartmentDto.class);
+        DepartmentDto departmentDto = forEntity.getBody();
+        EmployeeDto employeeDto = converter.toDto(employee);
+        return new APIResponseDto(employeeDto, departmentDto);
     }
 }

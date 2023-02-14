@@ -1,5 +1,6 @@
 package com.abc.ms.controller;
 
+import com.abc.ms.dto.APIResponseDto;
 import com.abc.ms.dto.EmployeeDto;
 import com.abc.ms.service.EmployeeService;
 import jakarta.validation.Valid;
@@ -33,13 +34,13 @@ public class EmployeeController {
         return ResponseEntity.ok(employeeService.findAll());
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<EmployeeDto> findByEmail(@PathVariable String email) {
+    @GetMapping("/email/{email}")
+    public ResponseEntity<APIResponseDto> findByEmail(@PathVariable String email) {
         return ResponseEntity.ok(employeeService.findByEmail(email));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<EmployeeDto> findById(@PathVariable long id) {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<APIResponseDto> findById(@PathVariable long id) {
         return ResponseEntity.ok(employeeService.findById(id));
     }
 }

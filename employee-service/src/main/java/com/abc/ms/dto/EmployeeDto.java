@@ -24,4 +24,6 @@ public class EmployeeDto {
     private String lastName;
     @Email(message = "Please provide correct email format")
     private String email;
+
+    private String departmentCode;
 }
