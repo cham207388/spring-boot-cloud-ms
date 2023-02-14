@@ -2,6 +2,7 @@ package com.abc.ms.service.impl;
 
 import com.abc.ms.dto.EmployeeDto;
 import com.abc.ms.entity.Employee;
+import com.abc.ms.exception.ResourceNotFoundException;
 import com.abc.ms.repository.EmployeeRepository;
 import com.abc.ms.service.EmployeeService;
 import com.abc.ms.utils.Converter;
@@ -39,13 +40,15 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public EmployeeDto findByEmail(String email) {
-        Employee employee = employeeRepository.findByEmail(email).get();
+        Employee employee = employeeRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("No employee with email: " + email));
         return converter.toDto(employee);
     }
 
     @Override
     public EmployeeDto findById(long id) {
-        Employee employee = employeeRepository.findById(id).get();
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No employee with id: " + id));
         return converter.toDto(employee);
     }
 }
