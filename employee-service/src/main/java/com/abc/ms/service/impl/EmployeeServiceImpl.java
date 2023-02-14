@@ -9,9 +9,8 @@ import com.abc.ms.repository.EmployeeRepository;
 import com.abc.ms.service.EmployeeService;
 import com.abc.ms.utils.Converter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final Converter converter;
-    private final RestTemplate restTemplate;
+    private final WebClient webClient;
 
     @Override
     public EmployeeDto save(EmployeeDto employeeDto) {
@@ -48,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Employee employee = employeeRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("No employee with email: " + email));
         EmployeeDto employeeDto = converter.toDto(employee);
-        DepartmentDto departmentDto = restTemplate.getForObject(DEPARTMENT_URL + employeeDto.getDepartmentCode(), DepartmentDto.class);
+        DepartmentDto departmentDto = getDepartmentDto(employeeDto);
         return new APIResponseDto(employeeDto, departmentDto);
     }
 
@@ -56,10 +55,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     public APIResponseDto findById(long id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No employee with id: " + id));
-
-        ResponseEntity<DepartmentDto> forEntity = restTemplate.getForEntity(DEPARTMENT_URL + employee.getDepartmentCode(), DepartmentDto.class);
-        DepartmentDto departmentDto = forEntity.getBody();
         EmployeeDto employeeDto = converter.toDto(employee);
+
+        DepartmentDto departmentDto = getDepartmentDto(employeeDto);
         return new APIResponseDto(employeeDto, departmentDto);
+    }
+
+    private DepartmentDto getDepartmentDto(EmployeeDto employeeDto) {
+        return webClient.get()
+                .uri(DEPARTMENT_URL + employeeDto.getDepartmentCode())
+                .retrieve()
+                .bodyToMono(DepartmentDto.class)
+                .block();
     }
 }
