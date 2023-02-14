@@ -3,8 +3,8 @@ department-service/HELP.md
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-!**/department-service/src/main/**/target/
-!**/employee-service/src/test/**/target/
+department-service/target/
+employee-service/target/
 
 ### STS ###
 .apt_generated
