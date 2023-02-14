@@ -6,11 +6,11 @@ import com.abc.ms.dto.EmployeeDto;
 import com.abc.ms.entity.Employee;
 import com.abc.ms.exception.ResourceNotFoundException;
 import com.abc.ms.repository.EmployeeRepository;
+import com.abc.ms.service.APIFeignClient;
 import com.abc.ms.service.EmployeeService;
 import com.abc.ms.utils.Converter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final Converter converter;
-    private final WebClient webClient;
+    private final APIFeignClient feignClient;
 
     @Override
     public EmployeeDto save(EmployeeDto employeeDto) {
@@ -62,10 +62,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private DepartmentDto getDepartmentDto(EmployeeDto employeeDto) {
-        return webClient.get()
-                .uri(DEPARTMENT_URL + employeeDto.getDepartmentCode())
-                .retrieve()
-                .bodyToMono(DepartmentDto.class)
-                .block();
+        return feignClient.findDepartmentByCode(employeeDto.getDepartmentCode());
     }
 }
