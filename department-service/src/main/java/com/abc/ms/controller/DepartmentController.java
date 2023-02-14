@@ -2,8 +2,8 @@ package com.abc.ms.controller;
 
 import com.abc.ms.dto.DepartmentDto;
 import com.abc.ms.service.DepartmentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -25,7 +25,7 @@ public class DepartmentController {
 
 
     @PostMapping
-    public ResponseEntity<DepartmentDto> save(@RequestBody DepartmentDto dto) {
+    public ResponseEntity<DepartmentDto> save(@RequestBody @Valid DepartmentDto dto) {
         DepartmentDto save = departmentService.save(dto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{code}")

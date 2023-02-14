@@ -2,6 +2,7 @@ package com.abc.ms.controller;
 
 import com.abc.ms.dto.EmployeeDto;
 import com.abc.ms.service.EmployeeService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping
-    public ResponseEntity<EmployeeDto> save(@RequestBody EmployeeDto dto) {
+    public ResponseEntity<EmployeeDto> save(@RequestBody @Valid EmployeeDto dto) {
         return new ResponseEntity<>(employeeService.save(dto), HttpStatus.CREATED);
     }
 
