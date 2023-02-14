@@ -2,6 +2,7 @@ package com.abc.ms.service.impl;
 
 import com.abc.ms.dto.DepartmentDto;
 import com.abc.ms.entity.Department;
+import com.abc.ms.exception.ResourceNotFoundException;
 import com.abc.ms.repository.DepartmentRepository;
 import com.abc.ms.service.DepartmentService;
 import com.abc.ms.utils.Converter;
@@ -38,6 +39,8 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public DepartmentDto findByCode(String code) {
-        return converter.toDto(departmentRepository.findByCode(code).get());
+        Department department = departmentRepository.findByCode(code)
+                .orElseThrow(() -> new ResourceNotFoundException("No department with code: " + code));
+        return converter.toDto(department);
     }
 }
