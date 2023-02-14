@@ -34,3 +34,4 @@ build/
 .vscode/
 employee-service/target/
 department-service/target/
+/department-service/target/
