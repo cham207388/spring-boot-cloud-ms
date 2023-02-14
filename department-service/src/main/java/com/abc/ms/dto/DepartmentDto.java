@@ -1,5 +1,6 @@
 package com.abc.ms.dto;
 
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,10 @@ import lombok.Setter;
 public class DepartmentDto {
 
     private Long id;
+    @Size(min = 3, message = "Name should be at least 3 characters")
     private String name;
     private String description;
+
+    @Size(min = 5, message = "Code should be 5 characters only")
     private String code;
 }
