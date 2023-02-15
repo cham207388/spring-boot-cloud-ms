@@ -18,4 +18,5 @@ Any one of the following
 ### Api Gateway
 1. provides a unified interface for a set of ms so that clients does not need to know the internals of the ms
 2. centralize cross-cutting concerns like security, monitoring, rate limiting etc
-3. SC Gateway
+3. SC Gateway 
+   1. config properties: https://cloud.spring.io/spring-cloud-gateway/reference/html/appendix.html
