@@ -35,3 +35,4 @@ build/
 /employee-service/target/
 /department-service/target/
 /service-registry/target/
+/api-gateway/target/
