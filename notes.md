@@ -62,6 +62,5 @@ Any one of the following
             . spring.rabbitmq.username=guest
             . spring.rabbitmq.password=guest
          - change services properties and call /actuator/busrefresh
-            t
       
       
