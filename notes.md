@@ -51,7 +51,7 @@ Any one of the following
 ##### Problem with manually triggering /actuator/refresh
       - use message broker to pick up changes automatically
       - all services have to register to the broker and the broker will broadcast the changes
-      Steps
+      Solution steps
          - org.springframework.cloud:spring-cloud-start-bus-amqp dependency
          - install RabbitMQ using docker
             . docker pull rabbitmq
