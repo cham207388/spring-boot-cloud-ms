@@ -20,3 +20,4 @@ Any one of the following
 2. centralize cross-cutting concerns like security, monitoring, rate limiting etc
 3. SC Gateway 
    1. config properties: https://cloud.spring.io/spring-cloud-gateway/reference/html/appendix.html
+4. once api-gateway and service registry are used, we can use server.port=0 to assign a random for the service at runtime.
