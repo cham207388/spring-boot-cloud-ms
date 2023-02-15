@@ -38,7 +38,7 @@ Any one of the following
          - spring.application.name=<application.name>
          - spring.config.import=optional:configserver:http://localhost:8888
 
-### Refresh scope
+#### Refresh scope
       - store message in department-service.properties
       - create an endpoint that retrieves this value
       - add at @RefreshScope on the controller layer
@@ -48,6 +48,20 @@ Any one of the following
       - this will picked up the changes from git config server
       - a call to this message endpoint will retrieve the changes
 
-###### Problem with manually triggering /actuator/refresh
+##### Problem with manually triggering /actuator/refresh
+      - use message broker to pick up changes automatically
+      - all services have to register to the broker and the broker will broadcast the changes
+      Steps
+         - org.springframework.cloud:spring-cloud-start-bus-amqp dependency
+         - install RabbitMQ using docker
+            . docker pull rabbitmq
+            . docker run --rm -it -p 5672:5672 rabbitmq
+         - rabbit mq configs in services
+            . spring.rabbitmq.host=localhost
+            . spring.rabbitmq.port=5672
+            . spring.rabbitmq.username=guest
+            . spring.rabbitmq.password=guest
+         - change services properties and call /actuator/busrefresh
+            t
       
       
