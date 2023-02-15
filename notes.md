@@ -6,7 +6,7 @@ Any one of the following
    1. add dependency, or.springframework.cloud:spring.cloud.starter.openfeign
    2. configure dependencyManagement (required)
    3. choose the correct compatible version with sb
-   4. @EnaledFeignClients on main class
+   4. @EnabledFeignClients on main class
    5. @FeignClient(name = "DEPARTMENT-SERVICE") on interface like controller methods
       1. with http method, and complete path
       2. use as you would restTemplate or webClient
