@@ -32,6 +32,6 @@ build/
 
 ### VS Code ###
 .vscode/
-employee-service/target/
-department-service/target/
+/employee-service/target/
 /department-service/target/
+/service-registry/target/
