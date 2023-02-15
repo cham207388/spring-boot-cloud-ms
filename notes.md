@@ -37,4 +37,14 @@ Any one of the following
       ** except the following in application.properties
          - spring.application.name=<application.name>
          - spring.config.import=optional:configserver:http://localhost:8888
+
+### Refresh scope
+      - store message in department-service.properties
+      - create an endpoint that retrieves this value
+      - add at @RefreshScope on the controller layer
+      - change value of property in department-service.properties in git
+      - restart config server
+      - send a POST request to /actuator/refresh
+      - this will picked up the changes from git config server
+      - a call to this message endpoint will retrieve the changes
       
