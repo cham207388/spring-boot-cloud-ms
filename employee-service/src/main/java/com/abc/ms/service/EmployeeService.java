@@ -10,7 +10,7 @@ import java.util.List;
  * @date 2/14/23
  */
 public interface EmployeeService {
-    String DEPARTMENT_URL = "http://localhost:8080/api/department/";
+    String DEPARTMENT_URL = "http://localhost:8080/api/departments/";
 
     EmployeeDto save(EmployeeDto employeeDto);
 

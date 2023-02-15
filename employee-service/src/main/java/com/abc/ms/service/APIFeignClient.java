@@ -12,6 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @FeignClient(name = "DEPARTMENT-SERVICE")
 public interface APIFeignClient {
 
-    @GetMapping("api/department/{code}")
+    @GetMapping("api/departments/{code}")
     DepartmentDto findDepartmentByCode(@PathVariable String code);
 }
