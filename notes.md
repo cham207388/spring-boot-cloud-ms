@@ -12,8 +12,8 @@ Any one of the following
       2. use as you would restTemplate or webClient
 
 ### Running multiple instance
-    1. java -jar -Dserver.port=9090 jarfile.jar
-    2. server.port=0 (this will deploy in a random port)
+      1. java -jar -Dserver.port=9090 jarfile.jar
+      2. server.port=0 (this will deploy in a random port)
 
 ### Api Gateway
       1. provides a unified interface for a set of ms so that clients does not need to know the internals of the ms
@@ -23,8 +23,18 @@ Any one of the following
       4. once api-gateway and service registry are used, we can use server.port=0 to assign a random for the service at runtime.
 
 ### config server
+      - both config server and actuator dependencies are required
       - create git repo
       - spring.cloud.config.server.git.uri=https://github.com/cham207388/config-server-sb-sc-ms
       - spring.cloud.config.server.git.default-label=main
       - spring.cloud.config.server.git.username=username
       - spring.cloud.config.server.git.password=token (Profile --> settings --> developer setting)
+
+##### Services using config server 
+      - add config client and actuator as dependencies
+      - create a file: <application.name>.properties
+      - put all config props in this file and commit 
+      ** except the following in application.properties
+         - spring.application.name=<application.name>
+         - spring.config.import=optional:configserver:http://localhost:8888
+      
