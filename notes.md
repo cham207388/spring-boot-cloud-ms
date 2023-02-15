@@ -47,4 +47,7 @@ Any one of the following
       - send a POST request to /actuator/refresh
       - this will picked up the changes from git config server
       - a call to this message endpoint will retrieve the changes
+
+###### Problem with manually triggering /actuator/refresh
+      
       
