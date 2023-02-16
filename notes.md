@@ -75,5 +75,18 @@ Any one of the following
          - add sleuth properties (search sleuth propertois)
             - spring.zipkin.base-url=127.0.0.1:9411
             - spring.sleuth.sampler.probability=1.0 // this 100% of logs
+      Steps
+         - Follow this link
+            - https://springbootlearning.medium.com/using-micrometer-to-trace-your-spring-boot-app-1fe6ff9982ae
+            - add 3 dependencies
+         
+         - download zipkin jar, run 
+            access from localhost:9411
+         - or docker:
+            docker run -d -p 9411:9411 openzipkin/zipkin
+            access from localhost:9411
+         - add to properties
+            - # Trace every action
+               - management.tracing.sampling.probability=1.0
       
       
