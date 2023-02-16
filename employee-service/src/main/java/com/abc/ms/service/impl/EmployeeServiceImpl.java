@@ -6,11 +6,12 @@ import com.abc.ms.dto.EmployeeDto;
 import com.abc.ms.entity.Employee;
 import com.abc.ms.exception.ResourceNotFoundException;
 import com.abc.ms.repository.EmployeeRepository;
-import com.abc.ms.service.APIFeignClient;
 import com.abc.ms.service.EmployeeService;
 import com.abc.ms.utils.Converter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,13 +21,14 @@ import java.util.stream.Collectors;
  * @date 2/14/23
  */
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final Converter converter;
-    private final APIFeignClient feignClient;
+    private final RestTemplate client;
 
     @Override
     public EmployeeDto save(EmployeeDto employeeDto) {
@@ -62,6 +64,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private DepartmentDto getDepartmentDto(EmployeeDto employeeDto) {
-        return feignClient.findDepartmentByCode(employeeDto.getDepartmentCode());
+        DepartmentDto response = client.getForObject("http://department-service/api/departments/" + employeeDto.getDepartmentCode(), DepartmentDto.class);
+        log.info("Response from department service: {}", response);
+        return response;
     }
 }

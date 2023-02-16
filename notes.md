@@ -1,7 +1,9 @@
 ### Communication
 Any one of the following
 1. RestTemplate. create bean and annotate with @LoadBalanced
+   1. for in e.g getForObject.url(http://application-name/path)
 2. WebClient. create bean. It's both sync and async
+   1. for in e.g get(http://application-name/path)
 3. Open feign
    1. add dependency, or.springframework.cloud:spring.cloud.starter.openfeign
    2. configure dependencyManagement (required)
