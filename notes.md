@@ -68,11 +68,12 @@ Any one of the following
       - org.springframework.cloud:spring-cloud-start-sleuth
       - logs format: application-name,trace-id,span-id
       - Zipkin allows you to view trace information through a UI
-      Steps to use Zipkin
+      Steps to use Zipkin and Sleuth
          - download jar file and start java -jar zipkin.jar
          - 127.0.0.1:9411/zipkin
          - add org.springframework.cloud:spring-cloud-starter-zipkin to api-gateway, and all services
          - add sleuth properties (search sleuth propertois)
             - spring.zipkin.base-url=127.0.0.1:9411
             - spring.sleuth.sampler.probability=1.0 // this 100% of logs
+      
       
