@@ -38,3 +38,4 @@ build/
 /api-gateway/target/
 /zipkin-server-2.23.19-exec.jar
 /organization-service/target/
+/config-server/target/
