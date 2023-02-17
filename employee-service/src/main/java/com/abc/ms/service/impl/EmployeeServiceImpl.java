@@ -9,6 +9,7 @@ import com.abc.ms.repository.EmployeeRepository;
 import com.abc.ms.service.EmployeeService;
 import com.abc.ms.utils.Converter;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -54,9 +55,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new APIResponseDto(employeeDto, departmentDto);
     }
 
-    @CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getDefaultResponse")
+    //@CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getDefaultResponse")
+    @Retry(name = "${spring.application.name}", fallbackMethod = "getDefaultResponse")
     @Override
     public APIResponseDto findById(long id) {
+        log.info("findById method! id : {}", id);
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No employee with id: " + id));
         EmployeeDto employeeDto = converter.toDto(employee);
@@ -82,7 +85,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new ResourceNotFoundException("No employee with id: " + id));
         EmployeeDto employeeDto = converter.toDto(employee);
 
-        DepartmentDto departmentDto = new DepartmentDto(Long.MIN_VALUE, "unreachable", "Department is down", "DID");
+        DepartmentDto departmentDto = new DepartmentDto(0L, "unreachable", "Department is down", "DID");
         return new APIResponseDto(employeeDto, departmentDto);
     }
 }
