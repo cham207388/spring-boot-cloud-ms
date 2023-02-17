@@ -29,13 +29,6 @@ public class OrganizationServiceImpl implements OrganizationService {
     }
 
     @Override
-    public OrganizationDto findById(long id) {
-        Organization organization = organizationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(Formatter.idErrorMessage(id)));
-        return modelMapper.map(organization, OrganizationDto.class);
-    }
-
-    @Override
     public OrganizationDto findByCode(String code) {
         Organization organization = organizationRepository.findByCode(code)
                 .orElseThrow(() -> new ResourceNotFoundException(Formatter.codeErrorMessage(code)));

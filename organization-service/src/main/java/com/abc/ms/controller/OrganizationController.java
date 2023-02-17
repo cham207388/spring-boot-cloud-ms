@@ -26,18 +26,13 @@ public class OrganizationController {
     public ResponseEntity<OrganizationDto> save(@RequestBody @Valid OrganizationDto dto) {
         OrganizationDto save = organizationService.save(dto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(save.getId())
+                .path("/{code}")
+                .buildAndExpand(save.getCode())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OrganizationDto> findById(@PathVariable long id) {
-        return new ResponseEntity<>(organizationService.findById(id), HttpStatus.OK);
-    }
-
-    @GetMapping("/code/{code}")
+    @GetMapping("/{code}")
     public ResponseEntity<OrganizationDto> findByCode(@PathVariable String code) {
         return new ResponseEntity<>(organizationService.findByCode(code), HttpStatus.OK);
     }

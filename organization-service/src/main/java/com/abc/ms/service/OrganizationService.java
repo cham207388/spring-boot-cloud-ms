@@ -9,6 +9,5 @@ import com.abc.ms.dto.OrganizationDto;
 public interface OrganizationService {
 
     OrganizationDto save(OrganizationDto dto);
-    OrganizationDto findById(long id);
     OrganizationDto findByCode(String code);
 }
