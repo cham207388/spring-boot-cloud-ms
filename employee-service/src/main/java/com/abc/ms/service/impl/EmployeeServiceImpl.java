@@ -12,7 +12,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,7 +29,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final Converter converter;
-    private final RestTemplate client;
+    private final WebClient client;
 
     @Override
     public EmployeeDto save(EmployeeDto employeeDto) {
@@ -66,12 +66,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     private DepartmentDto getDepartmentDto(EmployeeDto employeeDto) {
-        DepartmentDto response = client.getForObject("http://department-service/api/departments/" + employeeDto.getDepartmentCode(), DepartmentDto.class);
+        DepartmentDto response = client.get()
+                .uri(uriBuilder -> uriBuilder
+                        .host("department-service")
+                        .path("/api/departments/" + employeeDto.getDepartmentCode())
+                        .build()
+                ).retrieve().bodyToMono(DepartmentDto.class).block();
         log.info("Response from department service: {}", response);
         return response;
     }
 
-    public APIResponseDto getDefaultResponse(long id,Exception exception) {
+    public APIResponseDto getDefaultResponse(long id, Exception exception) {
         log.info("Fallback method is called");
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No employee with id: " + id));

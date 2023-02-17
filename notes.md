@@ -97,7 +97,7 @@ Any one of the following
          - sb-starter-actuator, sb-starter-aop and sc-starter-circuitbreaker-resilience4j
       - @CircuitBreaker to the method calling external service
       - Fallback method 
-            (why use WebClient instead of RestTemplate)
+            
       - config in app properties
             https://resilience4j.readme.io/docs/circuitbreaker
       
