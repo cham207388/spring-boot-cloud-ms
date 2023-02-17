@@ -8,6 +8,7 @@ import com.abc.ms.exception.ResourceNotFoundException;
 import com.abc.ms.repository.EmployeeRepository;
 import com.abc.ms.service.EmployeeService;
 import com.abc.ms.utils.Converter;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -53,6 +54,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         return new APIResponseDto(employeeDto, departmentDto);
     }
 
+    @CircuitBreaker(name = "${spring.application.name}", fallbackMethod = "getDefaultResponse")
     @Override
     public APIResponseDto findById(long id) {
         Employee employee = employeeRepository.findById(id)
@@ -67,5 +69,15 @@ public class EmployeeServiceImpl implements EmployeeService {
         DepartmentDto response = client.getForObject("http://department-service/api/departments/" + employeeDto.getDepartmentCode(), DepartmentDto.class);
         log.info("Response from department service: {}", response);
         return response;
+    }
+
+    public APIResponseDto getDefaultResponse(long id,Exception exception) {
+        log.info("Fallback method is called");
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No employee with id: " + id));
+        EmployeeDto employeeDto = converter.toDto(employee);
+
+        DepartmentDto departmentDto = new DepartmentDto(Long.MIN_VALUE, "unreachable", "Department is down", "DID");
+        return new APIResponseDto(employeeDto, departmentDto);
     }
 }
